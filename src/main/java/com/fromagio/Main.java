@@ -19,10 +19,17 @@ import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class Main implements IAppLogic {
+
     public static void main(String[] args) {
+        Window.WindowOptions opts = new Window.WindowOptions();
+        opts.height = 300;
+        opts.width = 300;
+        opts.compatibleProfile = false;
+
         Main main = new Main();
-        Engine gameEng = new Engine("1.1.3", new Window.WindowOptions(), main);
+        Engine gameEng = new Engine("1.1.3", opts, main);
         gameEng.start();
+        System.out.println(glGetString(GL_VERSION));
     }
 
     @Override

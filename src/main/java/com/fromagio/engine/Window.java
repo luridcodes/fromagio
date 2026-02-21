@@ -1,6 +1,7 @@
 package com.fromagio.engine;
 
 import org.lwjgl.glfw.*;
+import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryUtil;
 import org.tinylog.Logger;
 
@@ -63,6 +64,7 @@ public class Window {
         });
 
         glfwMakeContextCurrent(windowHandle);
+        GL.createCapabilities();
 
         if (opts.fps > 0) {
             glfwSwapInterval(0);
