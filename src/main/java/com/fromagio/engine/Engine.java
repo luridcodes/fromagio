@@ -1,7 +1,7 @@
 package com.fromagio.engine;
 
-import com.fromagio.engine.Render;
-import com.fromagio.engine.Scene;
+import com.fromagio.engine.graph.Render;
+import com.fromagio.engine.scene.Scene;
 
 public class Engine {
 
@@ -36,7 +36,6 @@ public class Engine {
     }
 
     private void resize() {
-        // Nothing to be done yet
     }
 
     private void run() {
