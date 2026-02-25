@@ -1,7 +1,10 @@
 package com.fromagio.engine;
 
 import com.fromagio.engine.graph.Render;
-import com.fromagio.engine.scene.Scene;
+import com.fromagio.engine.world.World;
+import org.tinylog.Logger;
+
+import java.util.Arrays;
 
 public class Engine {
 
@@ -10,7 +13,7 @@ public class Engine {
     private final Window window;
     private Render render;
     private boolean running;
-    private Scene scene;
+    private World world;
     private int targetFps;
     private int targetUps;
 
@@ -23,16 +26,18 @@ public class Engine {
         targetUps = opts.ups;
         this.appLogic = appLogic;
         render = new Render();
-        scene = new Scene();
-        appLogic.init(window, scene, render);
+        world = new World();
+        appLogic.init(window, world, render);
+        Logger.info("world initialised with objects: " + Arrays.toString(world.getObjectIDs()));
         running = true;
     }
 
     private void cleanup() {
         appLogic.cleanup();
         render.cleanup();
-        scene.cleanup();
+        world.cleanup();
         window.cleanup();
+        Logger.info("all resources cleaned.");
     }
 
     private void resize() {
@@ -54,18 +59,18 @@ public class Engine {
             deltaFps += (now - initialTime) / timeR;
 
             if (targetFps <= 0 || deltaFps >= 1) {
-                appLogic.input(window, scene, now - initialTime);
+                appLogic.input(window, world, now - initialTime);
             }
 
             if (deltaUpdate >= 1) {
                 long diffTimeMillis = now - updateTime;
-                appLogic.update(window, scene, diffTimeMillis);
+                appLogic.update(window, world, diffTimeMillis);
                 updateTime = now;
                 deltaUpdate--;
             }
 
             if (targetFps <= 0 || deltaFps >= 1) {
-                render.render(window, scene);
+                render.render(window, world);
                 deltaFps--;
                 window.update();
             }

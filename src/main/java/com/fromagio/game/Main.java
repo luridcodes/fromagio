@@ -1,11 +1,12 @@
 package com.fromagio.game;
 
 import com.fromagio.engine.*;
-import com.fromagio.engine.graph.Mesh;
 import com.fromagio.engine.graph.Render;
-import com.fromagio.engine.scene.Scene;
+import com.fromagio.engine.world.World;
+import org.tinylog.Logger;
 
-import static org.lwjgl.glfw.GLFW.*;
+import java.util.Arrays;
+
 import static org.lwjgl.opengl.GL11.*;
 
 public class Main implements IAppLogic {
@@ -21,8 +22,6 @@ public class Main implements IAppLogic {
         Main main = new Main();
         Engine gameEng = new Engine("1.1.3", opts, main);
         gameEng.start();
-        System.out.println(glGetString(GL_VERSION));
-
     }
 
     // these Main functions are called by the engine; this prevents any of the parameters
@@ -35,26 +34,10 @@ public class Main implements IAppLogic {
     }
 
     @Override
-    public void init(Window window, Scene scene, Render render) {
-        float[] positions1 = new float[] {
-                -0.1f, 0.5f, 0.0f,
-                -0.5f, -0.5f,  0.0f,
-                -0.1f, -0.5f,  0.0f,
-        };
-
-        float[] positions2 = new float[] {
-                0.1f, 0.5f, 0.0f,
-                0.5f, -0.5f,  0.0f,
-                0.1f, -0.5f,  0.0f,
-        };
-        Mesh triangleMesh1 = new Mesh(positions1, 3);
-        Mesh triangleMesh2 = new Mesh(positions2, 3);
-        scene.addMesh("left triangle", triangleMesh1);
-        scene.addMesh("right triangles", triangleMesh2);
-
+    public void init(Window window, World world, Render render) {
+        Scene scene = new Scene(world);
         // initialise game-side abstractions once to re-use forever in game loop
         inputHandler = new InputHandler(window);
-
     }
 
     /*
@@ -62,13 +45,13 @@ public class Main implements IAppLogic {
     be doing it 60 times a second...
      */
     @Override
-    public void input(Window window, Scene scene, long diffTimeMillis) {
+    public void input(Window window, World scene, long diffTimeMillis) {
         inputHandler.run();
     }
 
     // used to update physics and other things (might lag behind rendering)
     @Override
-    public void update(Window window, Scene scene, long diffTimeMillis) {
+    public void update(Window window, World scene, long diffTimeMillis) {
 
     }
 }

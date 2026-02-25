@@ -1,6 +1,6 @@
 package com.fromagio.engine.graph;
 
-import com.fromagio.engine.scene.Scene;
+import com.fromagio.engine.world.World;
 
 import java.util.*;
 
@@ -31,14 +31,15 @@ public class SceneRender {
 
     /**
      *
-     * @param scene
+     * @param world
      */
-    public void render(Scene scene) {
+    public void render(World world) {
         shaderProgram.bind();
 
-        scene.getMeshMap().values().forEach(mesh -> {
-                    glBindVertexArray(mesh.getVaoID());
-                    glDrawArrays(GL_TRIANGLES, 0, mesh.getNumVertices());
+        world.getObjectMap().values().forEach(object -> {
+                    glBindVertexArray(object.getMesh().getVaoID());
+                    // drawElements because we are using indices and reading from an array
+                    glDrawElements(GL_TRIANGLES, object.getMesh().getNumVertices(), GL_UNSIGNED_INT, 0);
                 }
         );
 
