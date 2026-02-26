@@ -1,6 +1,6 @@
 package com.fromagio.engine;
 
-import com.fromagio.engine.graph.Render;
+import com.fromagio.engine.gfx.Render;
 import com.fromagio.engine.world.World;
 
 public interface IAppLogic {

@@ -1,5 +1,6 @@
 package com.fromagio.engine.graph;
 
+import com.fromagio.engine.gfx.SceneRender;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.*;
 

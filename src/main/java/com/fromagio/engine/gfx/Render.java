@@ -1,4 +1,4 @@
-package com.fromagio.engine.graph;
+package com.fromagio.engine.gfx;
 
 import org.lwjgl.opengl.GL;
 import com.fromagio.engine.Window;

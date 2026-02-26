@@ -107,6 +107,8 @@ public class Window {
         return glfwGetKey(windowHandle, keyCode) == GLFW_PRESS;
     }
 
+    // TODO: ESCAPE is the default key -- how do i change this from outside the engine?
+    // should probably separate this behavior from the engine layer
     public void keyCallBack(int key, int action) {
         if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
             glfwSetWindowShouldClose(windowHandle, true); // We will detect this in the rendering loop

@@ -1,16 +1,11 @@
 package com.fromagio.game;
 
 import com.fromagio.engine.*;
-import com.fromagio.engine.graph.Render;
+import com.fromagio.engine.gfx.Render;
 import com.fromagio.engine.world.World;
-import org.tinylog.Logger;
-
-import java.util.Arrays;
-
-import static org.lwjgl.opengl.GL11.*;
 
 public class Main implements IAppLogic {
-
+    Player player;
     private InputHandler inputHandler;
 
     public static void main(String[] args) {
@@ -24,10 +19,6 @@ public class Main implements IAppLogic {
         gameEng.start();
     }
 
-    // these Main functions are called by the engine; this prevents any of the parameters
-    // from being explicitly used by Main() - rather, all Window, Scene and render parameters
-    // are encapsulated in the engine instance, so the main function only needs to start the engine
-    // once
     @Override
     public void cleanup() {
 
@@ -35,9 +26,10 @@ public class Main implements IAppLogic {
 
     @Override
     public void init(Window window, World world, Render render) {
-        Scene scene = new Scene(world);
         // initialise game-side abstractions once to re-use forever in game loop
         inputHandler = new InputHandler(window);
+
+        player = new Player(world);
     }
 
     /*
@@ -49,9 +41,9 @@ public class Main implements IAppLogic {
         inputHandler.run();
     }
 
-    // used to update physics and other things (might lag behind rendering)
+    // called once every update loop
     @Override
-    public void update(Window window, World scene, long diffTimeMillis) {
-
+    public void update(Window window, World world, long diffTimeMillis) {
+        player.update(diffTimeMillis, window);
     }
 }
