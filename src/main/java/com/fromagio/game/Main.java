@@ -6,6 +6,7 @@ import com.fromagio.engine.world.World;
 
 public class Main implements IAppLogic {
     Player player;
+    Background background;
     private InputHandler inputHandler;
 
     public static void main(String[] args) {
@@ -30,6 +31,7 @@ public class Main implements IAppLogic {
         inputHandler = new InputHandler(window);
 
         player = new Player(world);
+        background = new Background(world);
     }
 
     /*

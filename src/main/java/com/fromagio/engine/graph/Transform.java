@@ -9,6 +9,8 @@ import org.joml.Matrix4f;
  */
 public class Transform {
     private float x, y;
+    private float scaleX, scaleY;
+    private float rotation;
 
     public Transform() {
         this(0, 0);
@@ -17,6 +19,9 @@ public class Transform {
     public Transform(float x, float y) {
         this.x = x;
         this.y = y;
+        this.scaleX = 1;
+        this.scaleY = 1;
+        this.rotation = 0;
     }
 
     public void setPosition(float x, float y) {
@@ -29,11 +34,23 @@ public class Transform {
         this.y += dy;
     }
 
+    public void setScale(float sx, float sy) {
+        this.scaleX = sx;
+        this.scaleY = sy;
+    }
+
+    public void setRotation(float degrees) {
+        this.rotation = degrees;
+    }
+
     /**
      * Creates a translation matrix from current position
      */
     public Matrix4f getMatrix() {
-        return new Matrix4f().translate(x, y, 0);
+        return new Matrix4f()
+                .translate(x, y, 0)
+                .rotateZ((float)Math.toRadians(rotation))
+                .scale(scaleX, scaleY, 1);
     }
 
     public float getX() { return x; }

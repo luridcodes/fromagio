@@ -27,6 +27,8 @@ public class GameObject {
         transform.setPosition(x, y);
     }
 
+    public void setRotation(float degrees) { transform.setRotation(degrees); }
+    public void setScale(float sx, float sy) { transform.setScale(sx, sy);}
     public void translate(float dx, float dy) {
         transform.translate(dx, dy);
     }
