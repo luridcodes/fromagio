@@ -1,6 +1,7 @@
 package com.fromagio.engine.gfx;
 
 import com.fromagio.engine.fromapi.GameObject;
+import com.fromagio.engine.fromapi.Texture;
 import com.fromagio.engine.world.World;
 import org.joml.Matrix4f;
 
@@ -18,22 +19,26 @@ import static org.lwjgl.opengl.GL30.*;
 public class SceneRender {
 
     private final ShaderProgram shaderProgram;
-    private final Matrix4f viewMatrix;
-    private final Matrix4f projectionMatrix;
+    private Matrix4f viewMatrix;
+    private Matrix4f projectionMatrix;
+    private UniformMap uniformMap;
 
     public SceneRender() {
         List<ShaderProgram.ShaderModuleData> shaderModuleDataList = new ArrayList<>();
         shaderModuleDataList.add(new ShaderProgram.ShaderModuleData("src/resources/shaders/scene.vert", GL_VERTEX_SHADER));
         shaderModuleDataList.add(new ShaderProgram.ShaderModuleData("src/resources/shaders/scene.frag", GL_FRAGMENT_SHADER));
         shaderProgram = new ShaderProgram(shaderModuleDataList);
-        shaderProgram.validate();
+        createUniforms();
+    }
 
-        /*
-        viewMatrix controls the view to offset everything from the perspective of the camera
-        projectionMatrix is just ortho - don't change for 2D????
-         */
+    private void createUniforms() {
         viewMatrix = new Matrix4f().identity();
         projectionMatrix = new Matrix4f().identity();
+
+        uniformMap = new UniformMap(shaderProgram.getProgramID());
+        uniformMap.createUniform("view");
+        uniformMap.createUniform("projection");
+        uniformMap.createUniform("model");
     }
 
     public void cleanup() {
@@ -42,16 +47,22 @@ public class SceneRender {
 
     public void render(World world) {
         shaderProgram.bind();
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        // Set view and projection
-        shaderProgram.setUniform("view", viewMatrix);
-        shaderProgram.setUniform("projection", projectionMatrix);
+
+        uniformMap.setUniform("projection", projectionMatrix);
+        uniformMap.setUniform("view", viewMatrix);
 
         // Render each game object
         for (GameObject obj : world.getObjectMap().values()) {
             // Get the transform matrix from the GameObject
             Matrix4f modelMatrix = obj.getTransform().getMatrix();
-            shaderProgram.setUniform("model", modelMatrix);
+            uniformMap.setUniform("model", modelMatrix);
+
+            glActiveTexture(GL_TEXTURE0); // sets the active texture unit - we only need one unit for one texture per draw call for now
+            Texture texture = obj.getTexture();
+            texture.bind();
 
             // Draw the mesh
             glBindVertexArray(obj.getMesh().getVaoID());

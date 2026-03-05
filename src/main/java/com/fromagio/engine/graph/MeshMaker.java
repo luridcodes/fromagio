@@ -1,17 +1,9 @@
 package com.fromagio.engine.graph;
 
-import com.fromagio.engine.fromapi.Colour;
 import org.tinylog.Logger;
 
 import java.util.Arrays;
 
-/**
- * Contains static methods for generating a {@link Mesh}.
- *
- * <p> Meshes are created based on NDC. Static methods should take width, height
- * and {@link Colour} parameters. Each method creates arrays of floats to pass into
- * the Mesh object. </p>
- */
 public class MeshMaker {
 
     /**
@@ -22,10 +14,9 @@ public class MeshMaker {
      *
      * @param width width of the mesh
      * @param height height of the mesh
-     * @param colour {@link Colour} of the mesh
      * @return
      */
-    public static Mesh genRectangle(float width, float height, Colour colour) {
+    public static Mesh genRectangle(float width, float height) {
         float halfW = width / 2;
         float halfH = height / 2;
 
@@ -36,11 +27,11 @@ public class MeshMaker {
                 -halfW, -halfH, 0.0f,  // bottom left
         };
 
-        float[] colors = new float[]{
-                colour.getRed(), colour.getGreen(), colour.getBlue(), colour.getAlpha(),
-                colour.getRed(), colour.getGreen(), colour.getBlue(), colour.getAlpha(),
-                colour.getRed(), colour.getGreen(), colour.getBlue(), colour.getAlpha(),
-                colour.getRed(), colour.getGreen(), colour.getBlue(), colour.getAlpha(),
+        float[] texCoords = new float[]{
+                0.0f, 0.0f,
+                1.0f, 0.0f,
+                1.0f, 1.0f,
+                0.0f, 1.0f,
         };
 
         int[] indices = new int[]{
@@ -48,6 +39,6 @@ public class MeshMaker {
         };
 
         Logger.info("New mesh created" + Arrays.toString(positions));
-        return new Mesh(positions, colors, indices);
+        return new Mesh(positions, texCoords, indices);
     }
 }

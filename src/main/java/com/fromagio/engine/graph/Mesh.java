@@ -32,41 +32,37 @@ public class Mesh {
      *
      * @param positions array of floats containing positions of vertices to be added to the mesh
      * @param indices array of integers specifying how to read the positions array to draw triangles
-     * @param colours array of floats with colours corresponding to the positions array
+     * @param texCoords array of floats for the texture coordinates corresponding to the position coordinates
      */
-    public Mesh(float[] positions, float[] colours, int[] indices) {
+    public Mesh(float[] positions, float[] texCoords, int[] indices) {
         numVertices = indices.length;
         vboIdList = new ArrayList<>();
 
         vaoId = glGenVertexArrays();
         glBindVertexArray(vaoId);
-
-        // Positions VBO
-        int vboId = glGenBuffers();
+        int vboId = glGenBuffers(); // Positions VBO
         vboIdList.add(vboId);
-
         // creates dynamic mem buffer to store vertices
         FloatBuffer positionsBuffer = MemoryUtil.memCallocFloat(positions.length);
         positionsBuffer.put(0, positions);
-
         // binds and writes buffer to GPU memory
         glBindBuffer(GL_ARRAY_BUFFER, vboId);
         glBufferData(GL_ARRAY_BUFFER, positionsBuffer, GL_STATIC_DRAW);
-
         // VAO can only be created after VBO is bound
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
 
-        vboId =  glGenBuffers();
+        // buffer for textuuure coordinates
+        vboId = glGenBuffers();
         vboIdList.add(vboId);
-
-        FloatBuffer colorsBuffer = MemoryUtil.memAllocFloat(colours.length);
-        colorsBuffer.put(0, colours);
+        FloatBuffer texCoordsBuffer = MemoryUtil.memCallocFloat(texCoords.length);
+        texCoordsBuffer.put(0, texCoords);
         glBindBuffer(GL_ARRAY_BUFFER, vboId);
-        glBufferData(GL_ARRAY_BUFFER, colorsBuffer, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, texCoordsBuffer, GL_STATIC_DRAW);
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 0);
+        glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, 0);
 
+        // buffer for indices coordinates
         vboId =  glGenBuffers();
         vboIdList.add(vboId);
         IntBuffer indicesBuffer =  MemoryUtil.memAllocInt(indices.length);
@@ -80,7 +76,7 @@ public class Mesh {
 
         MemoryUtil.memFree(positionsBuffer);
         MemoryUtil.memFree(indicesBuffer);
-        MemoryUtil.memFree(colorsBuffer);
+        MemoryUtil.memFree(texCoordsBuffer);
 
     }
 

@@ -15,11 +15,13 @@ import org.tinylog.Logger;
 public class GameObject {
     private Mesh mesh;
     private Transform transform;  // Add transform
+    private Texture texture;
 
-    public GameObject(float x, float y) {
-        this.mesh = MeshMaker.genRectangle(1.0f, 1.0f, new Colour(Colour.RED));
+    public GameObject(float x, float y, Texture texture) {
+        this.mesh = MeshMaker.genRectangle(1.0f, 1.0f);
         this.transform = new Transform(x, y);
-        Logger.info("Created GameObject");
+        this.texture = texture;
+        Logger.info("Created GameObject with texture [{}]", texture.getTexturePath());
     }
 
     // Movement methods
@@ -37,6 +39,10 @@ public class GameObject {
     public Mesh getMesh() {
         return mesh;
     }
+    public String getTexturePath() {
+        return texture.getTexturePath();
+    }
+    public Texture getTexture() { return texture; }
 
     public Transform getTransform() {
         return transform;

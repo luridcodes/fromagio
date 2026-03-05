@@ -2,6 +2,7 @@ package com.fromagio.game;
 
 import com.fromagio.engine.Window;
 import com.fromagio.engine.fromapi.GameObject;
+import com.fromagio.engine.fromapi.Texture;
 import com.fromagio.engine.world.World;
 import org.tinylog.Logger;
 
@@ -10,9 +11,11 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
 
 public class Player {
     private final GameObject playerObject;
+    private final Texture cheeseTexture;
 
     public Player(World world) {
-        playerObject = new GameObject(0,0);
+        cheeseTexture = new Texture("src/resources/textures/cheesepng.png");
+        playerObject = new GameObject(0,0, cheeseTexture);
         world.addObject("player", playerObject);
     }
 

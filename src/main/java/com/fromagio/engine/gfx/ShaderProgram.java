@@ -94,20 +94,5 @@ public class ShaderProgram {
         }
     }
 
-    /**
-     * Used to set the uniforms for the matrices for transform, camera and projection
-     * @param name name of the mat4 uniform in the shader
-     * @param matrix the matrix to be set to the name
-     * @throws RuntimeException if uniform location does not exist
-     */
-    public void setUniform(String name, Matrix4f matrix) {
-        int location = glGetUniformLocation(programID, name);
-        if (location != -1) {
-            float[] buffer = new float[16];
-            matrix.get(buffer);
-            glUniformMatrix4fv(location, false, buffer);
-        } else throw new RuntimeException("Failed to set uniform " + name);
-    }
-
     public record ShaderModuleData(String shaderFile, int shaderType){}
 }

@@ -13,9 +13,9 @@ public class InputHandler {
     }
 
     public void run() {
-        if (window.isKeyPressed(GLFW_KEY_W)) {
-            System.out.println("W pressed");
-            // TODO: what if i wanted a function to end the game?
-        }
+//        if (window.isKeyPressed(GLFW_KEY_W)) {
+//            System.out.println("W pressed");
+//            // TODO: what if i wanted a function to end the game?
+//        }
     }
 }

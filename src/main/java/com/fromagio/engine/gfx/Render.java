@@ -3,6 +3,7 @@ package com.fromagio.engine.gfx;
 import org.lwjgl.opengl.GL;
 import com.fromagio.engine.Window;
 import com.fromagio.engine.world.World;
+import org.tinylog.Logger;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -23,6 +24,7 @@ public class Render {
     public Render() {
         GL.createCapabilities();
         sceneRender = new SceneRender();
+        Logger.info("Created Render instance");
     }
 
     public void cleanup() {

@@ -11,8 +11,8 @@ public class Main implements IAppLogic {
 
     public static void main(String[] args) {
         Window.WindowOptions opts = new Window.WindowOptions();
-        opts.height = 300;
-        opts.width = 300;
+        opts.height = 1000;
+        opts.width = 2000;
         opts.compatibleProfile = false;
 
         Main main = new Main();
