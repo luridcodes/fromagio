@@ -2,8 +2,9 @@ package com.fromagio.engine.gfx;
 
 import com.fromagio.engine.fromapi.GameObject;
 import com.fromagio.engine.fromapi.Texture;
-import com.fromagio.engine.world.World;
+import com.fromagio.engine.fromapi.Scene;
 import org.joml.Matrix4f;
+import org.tinylog.Logger;
 
 import java.util.*;
 
@@ -22,6 +23,7 @@ public class SceneRender {
     private Matrix4f viewMatrix;
     private Matrix4f projectionMatrix;
     private UniformMap uniformMap;
+    private int screenWidth, screenHeight;
 
     public SceneRender() {
         List<ShaderProgram.ShaderModuleData> shaderModuleDataList = new ArrayList<>();
@@ -31,28 +33,37 @@ public class SceneRender {
         createUniforms();
     }
 
+    public void updateDimensions(int width, int height) {
+        this.screenWidth = width;
+        this.screenHeight = height;
+        projectionMatrix = new Matrix4f().ortho(
+                0, screenWidth, screenHeight, 0, -1, 1
+        );
+        Logger.info("Screen resize called: Projection Matrix Modified: [{}]", projectionMatrix);
+    }
+
     private void createUniforms() {
         viewMatrix = new Matrix4f().identity();
-        projectionMatrix = new Matrix4f().identity();
 
         uniformMap = new UniformMap(shaderProgram.getProgramID());
         uniformMap.createUniform("view");
         uniformMap.createUniform("projection");
         uniformMap.createUniform("model");
+        uniformMap.createUniform("txtSampler");
+        Logger.info("Uniforms created: [{}]", uniformMap.getUniforms());
     }
 
     public void cleanup() {
         shaderProgram.cleanup();
     }
 
-    public void render(World world) {
+    public void render(Scene world) {
         shaderProgram.bind();
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-
         uniformMap.setUniform("projection", projectionMatrix);
         uniformMap.setUniform("view", viewMatrix);
+        uniformMap.setUniform("txtSampler", 0);
 
         // Render each game object
         for (GameObject obj : world.getObjectMap().values()) {

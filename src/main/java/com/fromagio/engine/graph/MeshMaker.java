@@ -21,10 +21,10 @@ public class MeshMaker {
         float halfH = height / 2;
 
         float[] positions = new float[]{
-                -halfW,  halfH, 0.0f,  // top left
-                halfW,  halfH, 0.0f,  // top right
-                halfW, -halfH, 0.0f,  // bottom right
-                -halfW, -halfH, 0.0f,  // bottom left
+                -halfW, -halfH, 0.0f,  // top left
+                halfW, -halfH, 0.0f,  // top right
+                halfW, halfH, 0.0f,  // bottom right
+                -halfW, halfH, 0.0f,  // bottom left
         };
 
         float[] texCoords = new float[]{

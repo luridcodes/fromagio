@@ -3,6 +3,7 @@ package com.fromagio.engine.fromapi;
 import com.fromagio.engine.graph.Mesh;
 import com.fromagio.engine.graph.MeshMaker;
 import com.fromagio.engine.graph.Transform;
+import com.fromagio.engine.input.InputHandler;
 import org.tinylog.Logger;
 
 /**
@@ -16,9 +17,10 @@ public class GameObject {
     private Mesh mesh;
     private Transform transform;  // Add transform
     private Texture texture;
+    private InputHandler inputHandler;
 
-    public GameObject(float x, float y, Texture texture) {
-        this.mesh = MeshMaker.genRectangle(1.0f, 1.0f);
+    public GameObject(float x, float y, float width, float height, Texture texture) {
+        this.mesh = MeshMaker.genRectangle(width, height);
         this.transform = new Transform(x, y);
         this.texture = texture;
         Logger.info("Created GameObject with texture [{}]", texture.getTexturePath());
@@ -28,12 +30,8 @@ public class GameObject {
     public void setPosition(float x, float y) {
         transform.setPosition(x, y);
     }
-
     public void setRotation(float degrees) { transform.setRotation(degrees); }
     public void setScale(float sx, float sy) { transform.setScale(sx, sy);}
-    public void translate(float dx, float dy) {
-        transform.translate(dx, dy);
-    }
 
     // Getters
     public Mesh getMesh() {
@@ -43,11 +41,22 @@ public class GameObject {
         return texture.getTexturePath();
     }
     public Texture getTexture() { return texture; }
+    public float getX() { return transform.getX(); }
+    public float getY() { return transform.getY(); }
 
+    // Transform methods
+    public void translate(float dx, float dy) {
+        transform.translate(dx, dy);
+    }
     public Transform getTransform() {
         return transform;
     }
 
-    public float getX() { return transform.getX(); }
-    public float getY() { return transform.getY(); }
+    public void createInput() {
+        inputHandler = new InputHandler(GameObject.this);
+    }
+
+    public InputHandler input() {
+        return inputHandler;
+    }
 }

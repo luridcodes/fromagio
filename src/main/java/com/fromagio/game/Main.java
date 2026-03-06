@@ -1,18 +1,22 @@
 package com.fromagio.game;
 
 import com.fromagio.engine.*;
+import com.fromagio.engine.fromapi.SceneManager;
 import com.fromagio.engine.gfx.Render;
-import com.fromagio.engine.world.World;
+import com.fromagio.engine.fromapi.Scene;
+
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 
 public class Main implements IAppLogic {
-    Player player;
-    Background background;
-    private InputHandler inputHandler;
+    Scene startScene;
+    Scene gameScene;
+    Player lucas;
+    SceneManager sceneManager;
 
-    public static void main(String[] args) {
+    static void main() {
         Window.WindowOptions opts = new Window.WindowOptions();
-        opts.height = 1000;
-        opts.width = 2000;
+        opts.height = 500;
+        opts.width = 1000;
         opts.compatibleProfile = false;
 
         Main main = new Main();
@@ -26,26 +30,33 @@ public class Main implements IAppLogic {
     }
 
     @Override
-    public void init(Window window, World world, Render render) {
-        // initialise game-side abstractions once to re-use forever in game loop
-        inputHandler = new InputHandler(window);
+    public void init(Window window, Render render, SceneManager sceneManager) {
+        this.sceneManager = sceneManager;
 
-        player = new Player(world);
-        background = new Background(world);
+        startScene = new Scene();
+        StartScreen startScreen = new StartScreen(window);
+        startScene.addObject("Start Scene Text", startScreen.getGameObject());
+        sceneManager.setCurrentScene(startScene);
+
+        gameScene = new Scene();
+        lucas = new Player();
+        gameScene.addObject("player", lucas.getGameObject());
     }
 
     /*
-    functions below are used in the game loop - don't initialise everything or you will
+    functions below are used in the game loop - don't initialise everything, or you will
     be doing it 60 times a second...
      */
     @Override
-    public void input(Window window, World scene, long diffTimeMillis) {
-        inputHandler.run();
+    public void input(Window window, long diffTimeMillis) {
+        if(sceneManager.getCurrentScene() == gameScene) lucas.update(diffTimeMillis, window);
     }
 
     // called once every update loop
     @Override
-    public void update(Window window, World world, long diffTimeMillis) {
-        player.update(diffTimeMillis, window);
+    public void update(Window window, long diffTimeMillis) {
+        if(window.isKeyPressed(GLFW_KEY_SPACE)) {
+           sceneManager.setCurrentScene(gameScene);
+        }
     }
 }

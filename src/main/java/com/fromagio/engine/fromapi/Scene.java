@@ -1,6 +1,5 @@
-package com.fromagio.engine.world;
+package com.fromagio.engine.fromapi;
 
-import com.fromagio.engine.fromapi.GameObject;
 import com.fromagio.engine.graph.Mesh;
 
 import java.util.*;
@@ -8,10 +7,10 @@ import java.util.*;
 /**
  * Contains a {@link HashMap} of {@link Mesh} objects to be used for rendering
  */
-public class World {
+public class Scene {
     private final Map<String, GameObject> gameObjectMap;
 
-    public World() {
+    public Scene() {
         gameObjectMap = new HashMap<>();
     }
 

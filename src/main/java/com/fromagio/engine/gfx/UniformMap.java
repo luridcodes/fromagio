@@ -47,4 +47,8 @@ public class UniformMap {
         glUniform1i(getUniformLocation(uniformName), value);
         // Logger.info("Uniform [{}] set", uniformName);
     }
+
+    public Map<String, Integer> getUniforms() {
+        return uniformsMap;
+    }
 }

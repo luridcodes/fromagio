@@ -1,7 +1,9 @@
 package com.fromagio.engine;
 
+import com.fromagio.engine.fromapi.SceneManager;
 import com.fromagio.engine.gfx.Render;
-import com.fromagio.engine.world.World;
+import com.fromagio.engine.input.InputHandler;
+import com.fromagio.engine.fromapi.Scene;
 import org.tinylog.Logger;
 
 import java.util.Arrays;
@@ -11,11 +13,13 @@ public class Engine {
     public static final int TARGET_UPS = 30;
     private final IAppLogic appLogic;
     private final Window window;
+    private InputHandler inputHandler;
     private Render render;
     private boolean running;
-    private World world;
     private int targetFps;
     private int targetUps;
+    private SceneManager sceneManager;
+    public static Engine instance; // singleton design pattern
 
     public Engine(String windowTitle, Window.WindowOptions opts, IAppLogic appLogic) {
         window = new Window(windowTitle, opts, () -> {
@@ -26,21 +30,32 @@ public class Engine {
         targetUps = opts.ups;
         this.appLogic = appLogic;
         render = new Render();
-        world = new World();
-        appLogic.init(window, world, render);
-        Logger.info("world initialised with objects: " + Arrays.toString(world.getObjectIDs()));
+        render.updateDimensions(window.getWidth(), window.getHeight());
+        sceneManager = new SceneManager();
+        appLogic.init(window, render, sceneManager);
         running = true;
+
+        if(instance == null) {
+            instance =  this;
+        } else {
+            Logger.error("Engine instance already created!");
+        }
     }
 
     private void cleanup() {
         appLogic.cleanup();
         render.cleanup();
-        world.cleanup();
+        sceneManager.getCurrentScene().cleanup();
         window.cleanup();
         Logger.info("all resources cleaned.");
     }
 
+    /**
+     * This function is called every time the window is resized
+     * @see Window
+     */
     private void resize() {
+        render.updateDimensions(window.getWidth(), window.getHeight());
     }
 
     private void run() {
@@ -59,18 +74,18 @@ public class Engine {
             deltaFps += (now - initialTime) / timeR;
 
             if (targetFps <= 0 || deltaFps >= 1) {
-                appLogic.input(window, world, now - initialTime);
+                appLogic.input(window, now - initialTime);
             }
 
             if (deltaUpdate >= 1) {
                 long diffTimeMillis = now - updateTime;
-                appLogic.update(window, world, diffTimeMillis);
+                appLogic.update(window, diffTimeMillis);
                 updateTime = now;
                 deltaUpdate--;
             }
 
             if (targetFps <= 0 || deltaFps >= 1) {
-                render.render(window, world);
+                render.render(window, sceneManager.getCurrentScene());
                 deltaFps--;
                 window.update();
             }
@@ -87,6 +102,14 @@ public class Engine {
 
     public void stop() {
         running = false;
+    }
+
+    public SceneManager getSceneManager() {
+        return instance.sceneManager;
+    }
+
+    public static Window getWindow() {
+        return instance.window;
     }
 
 }

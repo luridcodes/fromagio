@@ -137,6 +137,11 @@ public class Window {
         return glfwWindowShouldClose(windowHandle);
     }
 
+    /**
+     * Acts as a struct to contain:
+     * Boolean on OpenGL compatibility
+     * int for fps, height, and width
+     */
     public static class WindowOptions {
         public boolean compatibleProfile;
         public int fps;

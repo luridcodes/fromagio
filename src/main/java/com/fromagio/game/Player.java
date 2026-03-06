@@ -3,48 +3,29 @@ package com.fromagio.game;
 import com.fromagio.engine.Window;
 import com.fromagio.engine.fromapi.GameObject;
 import com.fromagio.engine.fromapi.Texture;
-import com.fromagio.engine.world.World;
-import org.tinylog.Logger;
+import com.fromagio.engine.fromapi.Scene;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
 
 public class Player {
-    private final GameObject playerObject;
-    private final Texture cheeseTexture;
+    private GameObject playerObject;
+    private Texture cheeseTexture;
 
-    public Player(World world) {
+    public Player() {
         cheeseTexture = new Texture("src/resources/textures/cheesepng.png");
-        playerObject = new GameObject(0,0, cheeseTexture);
-        world.addObject("player", playerObject);
+        playerObject = new GameObject(50,50, 100,100, cheeseTexture);
+        playerObject.createInput();
+        playerObject.input().setMovementKeys(GLFW_KEY_W, GLFW_KEY_S, GLFW_KEY_A, GLFW_KEY_D);
+        playerObject.input().setSpeed(200.0f);
+    }
+
+    public GameObject getGameObject() {
+        return playerObject;
     }
 
     public void update(long diffTimeMillis, Window window) {
-        float deltaTime = diffTimeMillis / 1000.0f;
-
-        // Move based on WASD - DIRECTLY in update!
-        float speed = 2.0f;
-        if (window.isKeyPressed(GLFW_KEY_W)) {
-            playerObject.translate(0, speed * deltaTime);
-            Logger.info("W pressed - position: (" + playerObject.getX() + ", " + playerObject.getY() + ")");
-        }
-        if (window.isKeyPressed(GLFW_KEY_S)) {
-            playerObject.translate(0, -speed * deltaTime);
-            Logger.info("S pressed - position: (" + playerObject.getX() + ", " + playerObject.getY() + ")");
-        }
-        if (window.isKeyPressed(GLFW_KEY_A)) {
-            playerObject.translate(-speed * deltaTime, 0);
-            Logger.info("A pressed - position: (" + playerObject.getX() + ", " + playerObject.getY() + ")");
-        }
-        if (window.isKeyPressed(GLFW_KEY_D)) {
-            playerObject.translate(speed * deltaTime, 0);
-            Logger.info("D pressed - position: (" + playerObject.getX() + ", " + playerObject.getY() + ")");
-        }
-
-        if (window.isKeyPressed(GLFW_KEY_SPACE)) {
-            playerObject.setPosition(0,0);
-            Logger.info("Space pressed - position reset to: (" + playerObject.getX() + ", " + playerObject.getY() + ")");
-        }
+        playerObject.input().update(diffTimeMillis);
     }
 }
 
