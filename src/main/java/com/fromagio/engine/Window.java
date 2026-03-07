@@ -5,6 +5,8 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryUtil;
 import org.tinylog.Logger;
 
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.util.concurrent.Callable;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
@@ -59,10 +61,6 @@ public class Window {
                 Logger.error("Error code [{}], msg [{}]", errorCode, MemoryUtil.memUTF8(msgPtr))
         );
 
-        glfwSetKeyCallback(windowHandle, (window, key, scancode, action, mods) -> {
-            keyCallBack(key, action);
-        });
-
         glfwMakeContextCurrent(windowHandle);
         GL.createCapabilities();
 
@@ -103,17 +101,6 @@ public class Window {
         return windowHandle;
     }
 
-    public boolean isKeyPressed(int keyCode) {
-        return glfwGetKey(windowHandle, keyCode) == GLFW_PRESS;
-    }
-
-    // TODO: ESCAPE is the default key -- how do i change this from outside the engine?
-    // should probably separate this behavior from the engine layer
-    public void keyCallBack(int key, int action) {
-        if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
-            glfwSetWindowShouldClose(windowHandle, true); // We will detect this in the rendering loop
-        }
-    }
 
     public void pollEvents() {
         glfwPollEvents();

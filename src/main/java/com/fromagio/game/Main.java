@@ -2,18 +2,12 @@ package com.fromagio.game;
 
 import com.fromagio.engine.*;
 import com.fromagio.engine.fromapi.SceneManager;
-import com.fromagio.engine.gfx.Render;
-import com.fromagio.engine.fromapi.Scene;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
-enum state {
-    START_SCREEN,
-    GAME_SCREEN,
-}
+
+
 public class Main implements IAppLogic {
-    state gameState;
-    Scene startScene;
-    GameWorld gameWorld;
+    GameScene gameScene;
     SceneManager sceneManager;
 
     static void main() {
@@ -28,13 +22,10 @@ public class Main implements IAppLogic {
     }
 
     @Override
-    public void init(Window window, Render render, SceneManager sceneManager) {
+    public void init(Window window, SceneManager sceneManager) {
         this.sceneManager = sceneManager;
-
-        startScene = new Scene();
-        StartScreen startScreen = new StartScreen(window);
-        startScene.addObject("Start Scene Text", startScreen.getGameObject());
-        sceneManager.setCurrentScene(startScene);
+        sceneManager.addScene("START_SCENE", new StartScreen(window).getScene());
+        sceneManager.setCurrentScene("START_SCENE");
     }
 
     /*
@@ -43,16 +34,23 @@ public class Main implements IAppLogic {
      */
     @Override
     public void input(Window window, long diffTimeMillis) {
-        if(gameState == state.GAME_SCREEN) gameWorld.update(diffTimeMillis);
+        if(sceneManager.getCurrentSceneName() == "START_SCENE"
+                && Engine.input().getKeyboard().isKeyPressed(GLFW_KEY_SPACE)) {
+            gameScene = new GameScene();
+            sceneManager.addScene("GAME_SCENE", gameScene.getScene());
+            sceneManager.setCurrentScene("GAME_SCENE");
+        }
     }
 
     // called once every update loop
     @Override
     public void update(Window window, long diffTimeMillis) {
-        if(window.isKeyPressed(GLFW_KEY_SPACE)) {
-            gameWorld = new GameWorld();
-            gameState = state.GAME_SCREEN;
-            sceneManager.setCurrentScene(gameWorld.getScene());
+        if(sceneManager.getCurrentSceneName() == "GAME_SCENE") {
+            gameScene.update(diffTimeMillis);
+            if(gameScene.isGameOver()) {
+                sceneManager.addScene("END_SCENE", new EndScreen(window).getScene());
+                sceneManager.setCurrentScene("END_SCENE");
+            }
         }
     }
 }

@@ -3,7 +3,6 @@ package com.fromagio.engine.fromapi;
 import com.fromagio.engine.graph.Mesh;
 import com.fromagio.engine.graph.MeshMaker;
 import com.fromagio.engine.graph.Transform;
-import com.fromagio.engine.input.InputHandler;
 import org.tinylog.Logger;
 
 /**
@@ -17,12 +16,14 @@ public class GameObject {
     private Mesh mesh;
     private Transform transform;  // Add transform
     private Texture texture;
-    private InputHandler inputHandler;
+    private float getWidth, height;
 
     public GameObject(float x, float y, float width, float height, Texture texture) {
         this.mesh = MeshMaker.genRectangle(width, height);
         this.transform = new Transform(x, y);
         this.texture = texture;
+        this.getWidth = width;
+        this.height = height;
         Logger.info("[GameObject] Created GameObject with texture [{}]", texture.getTexturePath());
     }
 
@@ -50,36 +51,14 @@ public class GameObject {
      */
     public Texture texture() { return texture;}
 
-    /**
-     * Used to create and access the {@link InputHandler} 
-     * 
-     * <p> If no InputHandler has been initialised before, accessing the InputHandler 
-     * will automatically create a new instance. Each Object can only have one 
-     * InputHandler. </p>
-     * 
-     * <p> The InputHandler can be configured to set movement keys (up, down, left, right) 
-     * and the speed of the object. Once configured, the 
-     * {@link InputHandler#update(long diffTimeMillis)} method must be called each Input 
-     * cycle in the game loop. (diffTimeMillis is necessary to calculate the displacement 
-     * of the object using the speed</p>
-     * 
-     * <p> In the future, this method should also take other forms of input like mouse 
-     * movements </p>
-     * @return An {@link InputHandler}
-     * @see InputHandler#setMovementKeys(int upKey, int downKey, int leftKey, int rightKey)
-     * @see InputHandler#update(long diffTimeMillis) 
-     */
-    public InputHandler inputHandler() {
-        if (inputHandler == null) {
-            Logger.info("[GameObject] Create new InputHandler");
-            inputHandler = new InputHandler(GameObject.this);
-            return inputHandler;
-        }
-        else return inputHandler;
-    }
-
     // Getters
     public Mesh getMesh() {
         return mesh;
     }
+
+    // for convenience purposes, the transform methods are wrapped here
+    public float getWidth() { return getWidth; }
+    public float getHeight() { return height; }
+    public float getX() { return transform.getX(); }
+    public float getY() { return transform.getY(); }
 }

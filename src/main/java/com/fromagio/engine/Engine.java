@@ -2,25 +2,21 @@ package com.fromagio.engine;
 
 import com.fromagio.engine.fromapi.SceneManager;
 import com.fromagio.engine.gfx.Render;
-import com.fromagio.engine.input.InputHandler;
-import com.fromagio.engine.fromapi.Scene;
-import com.fromagio.game.Main;
+import com.fromagio.engine.input.Input;
 import org.tinylog.Logger;
-
-import java.util.Arrays;
 
 public class Engine {
 
     public static final int TARGET_UPS = 30;
     private final IAppLogic appLogic;
     private final Window window;
-    private InputHandler inputHandler;
     private Render render;
     private boolean running;
     private int targetFps;
     private int targetUps;
     private SceneManager sceneManager;
-    public static Engine instance; // singleton design pattern
+    private static Engine instance; // singleton design pattern
+    private Input input;
 
     /**
      * Enforces one engine per game
@@ -49,7 +45,8 @@ public class Engine {
         render = new Render();
         render.updateDimensions(window.getWidth(), window.getHeight());
         sceneManager = new SceneManager();
-        appLogic.init(window, render, sceneManager);
+        input = new Input(window.getWindowHandle());
+        appLogic.init(window, sceneManager);
         running = true;
 
         Logger.info("[Engine] Engine initialised for Window [{}]", windowTitle);
@@ -113,15 +110,23 @@ public class Engine {
         instance.run();
     }
 
-    public void stop() {
-        running = false;
+    public static void stop() {
+        instance.cleanup();
+        instance.running = false;
     }
 
     public SceneManager getSceneManager() {
         return instance.sceneManager;
     }
 
+    public static Input input() {
+        return instance.input;
+    }
+
     public static Window getWindow() {
+        if(instance == null) {
+            throw new RuntimeException("No engine created!");
+        }
         return instance.window;
     }
 

@@ -6,7 +6,7 @@ import com.fromagio.engine.fromapi.Scene;
 
 public interface IAppLogic {
     void cleanup();
-    void init(Window window, Render render, SceneManager sceneManager);
+    void init(Window window, SceneManager sceneManager);
     void input(Window window, long diffTimeMillis);
     void update(Window window, long diffTimeMillis);
 }
