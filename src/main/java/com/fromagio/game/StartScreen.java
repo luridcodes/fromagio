@@ -2,6 +2,7 @@ package com.fromagio.game;
 
 import com.fromagio.engine.Window;
 import com.fromagio.engine.fromapi.GameObject;
+import com.fromagio.engine.fromapi.Scene;
 import com.fromagio.engine.fromapi.SceneManager;
 import com.fromagio.engine.fromapi.Texture;
 
@@ -11,6 +12,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
 public class StartScreen {
     private GameObject startObject;
     private Texture startTexture;
+    private Scene startScene;
 
     public StartScreen(Window window) {
         startTexture = new Texture("src/resources/textures/start_screen.png");

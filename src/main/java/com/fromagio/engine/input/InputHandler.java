@@ -42,16 +42,16 @@ public class InputHandler {
         }
 
         if(Engine.getWindow().isKeyPressed(upKey)) {
-            object.translate(0, -speed*deltaTime);
+            object.transform().translate(0, -speed*deltaTime);
         }
         if(Engine.getWindow().isKeyPressed(downKey)) {
-            object.translate(0, speed*deltaTime);
+            object.transform().translate(0, speed*deltaTime);
         }
         if(Engine.getWindow().isKeyPressed(leftKey)) {
-            object.translate(-speed*deltaTime,0 );
+            object.transform().translate(-speed*deltaTime,0 );
         }
         if(Engine.getWindow().isKeyPressed(rightKey)) {
-            object.translate(speed*deltaTime, 0);
+            object.transform().translate(speed*deltaTime, 0);
         }
     }
 }

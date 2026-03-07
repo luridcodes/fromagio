@@ -6,22 +6,20 @@ import com.fromagio.engine.gfx.Render;
 import com.fromagio.engine.fromapi.Scene;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
-
+enum state {
+    START_SCREEN,
+    GAME_SCREEN,
+}
 public class Main implements IAppLogic {
+    state gameState;
     Scene startScene;
-    Scene gameScene;
-    Player lucas;
+    GameWorld gameWorld;
     SceneManager sceneManager;
 
     static void main() {
-        Window.WindowOptions opts = new Window.WindowOptions();
-        opts.height = 500;
-        opts.width = 1000;
-        opts.compatibleProfile = false;
-
-        Main main = new Main();
-        Engine gameEng = new Engine("1.1.3", opts, main);
-        gameEng.start();
+        // use singleton design pattern
+        Engine.init("title", 500, 500, new Main());
+        Engine.start();
     }
 
     @Override
@@ -37,10 +35,6 @@ public class Main implements IAppLogic {
         StartScreen startScreen = new StartScreen(window);
         startScene.addObject("Start Scene Text", startScreen.getGameObject());
         sceneManager.setCurrentScene(startScene);
-
-        gameScene = new Scene();
-        lucas = new Player();
-        gameScene.addObject("player", lucas.getGameObject());
     }
 
     /*
@@ -49,14 +43,16 @@ public class Main implements IAppLogic {
      */
     @Override
     public void input(Window window, long diffTimeMillis) {
-        if(sceneManager.getCurrentScene() == gameScene) lucas.update(diffTimeMillis, window);
+        if(gameState == state.GAME_SCREEN) gameWorld.update(diffTimeMillis);
     }
 
     // called once every update loop
     @Override
     public void update(Window window, long diffTimeMillis) {
         if(window.isKeyPressed(GLFW_KEY_SPACE)) {
-           sceneManager.setCurrentScene(gameScene);
+            gameWorld = new GameWorld();
+            gameState = state.GAME_SCREEN;
+            sceneManager.setCurrentScene(gameWorld.getScene());
         }
     }
 }

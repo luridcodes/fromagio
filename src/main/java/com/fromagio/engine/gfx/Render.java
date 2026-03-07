@@ -24,7 +24,7 @@ public class Render {
     public Render() {
         GL.createCapabilities();
         sceneRender = new SceneRender();
-        Logger.info("Created Render instance");
+        Logger.info("[Render] Created Render instance");
     }
 
     public void cleanup() {

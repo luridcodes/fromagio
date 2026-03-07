@@ -25,7 +25,7 @@ public class UniformMap {
                     programID + "]");
         }
         uniformsMap.put(uniformName, uniformLocation);
-        Logger.info("New Uniform [{}] created", uniformName);
+        Logger.info("[UniformMap] New Uniform [{}] created", uniformName);
     }
 
     private int getUniformLocation(String uniformName) {

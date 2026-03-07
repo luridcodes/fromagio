@@ -8,11 +8,5 @@ public interface IAppLogic {
     void cleanup();
     void init(Window window, Render render, SceneManager sceneManager);
     void input(Window window, long diffTimeMillis);
-
-    /**
-     * Called once per update cycle.
-     * @param window
-     * @param diffTimeMillis the amount of time elapsed since the last update
-     */
     void update(Window window, long diffTimeMillis);
 }

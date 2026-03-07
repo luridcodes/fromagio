@@ -23,40 +23,63 @@ public class GameObject {
         this.mesh = MeshMaker.genRectangle(width, height);
         this.transform = new Transform(x, y);
         this.texture = texture;
-        Logger.info("Created GameObject with texture [{}]", texture.getTexturePath());
+        Logger.info("[GameObject] Created GameObject with texture [{}]", texture.getTexturePath());
     }
 
-    // Movement methods
-    public void setPosition(float x, float y) {
-        transform.setPosition(x, y);
+    // access to components
+
+    /**
+     * Used to access the {@link Transform} instance bound to this GameObject. The Transform
+     * class is used to handle operations related to position, size and rotation
+     *
+     * <p> Coordinates are given in pixels, with the top left corner being (0,0), and angles 
+     * are given in degrees. </p>
+     * 
+     * <p> A transform class is created upon initialising a GameObject. The transform class is
+     * responsible in generating the Model uniform matrix to calculate the position, size and
+     * rotation of the object when being rendered. (See {@link Transform#getMatrix()}) </p>
+     * @return The {@link Transform} instance linked to this object 
+     */
+    public Transform transform() { return transform;}
+
+    /**
+     * Used to access the {@link Texture} instance bound to this object. 
+     * 
+     * <p> Mostly used for internal accessing of the texture for rendering</p>
+     * @return The {@link Texture} instance 
+     */
+    public Texture texture() { return texture;}
+
+    /**
+     * Used to create and access the {@link InputHandler} 
+     * 
+     * <p> If no InputHandler has been initialised before, accessing the InputHandler 
+     * will automatically create a new instance. Each Object can only have one 
+     * InputHandler. </p>
+     * 
+     * <p> The InputHandler can be configured to set movement keys (up, down, left, right) 
+     * and the speed of the object. Once configured, the 
+     * {@link InputHandler#update(long diffTimeMillis)} method must be called each Input 
+     * cycle in the game loop. (diffTimeMillis is necessary to calculate the displacement 
+     * of the object using the speed</p>
+     * 
+     * <p> In the future, this method should also take other forms of input like mouse 
+     * movements </p>
+     * @return An {@link InputHandler}
+     * @see InputHandler#setMovementKeys(int upKey, int downKey, int leftKey, int rightKey)
+     * @see InputHandler#update(long diffTimeMillis) 
+     */
+    public InputHandler inputHandler() {
+        if (inputHandler == null) {
+            Logger.info("[GameObject] Create new InputHandler");
+            inputHandler = new InputHandler(GameObject.this);
+            return inputHandler;
+        }
+        else return inputHandler;
     }
-    public void setRotation(float degrees) { transform.setRotation(degrees); }
-    public void setScale(float sx, float sy) { transform.setScale(sx, sy);}
 
     // Getters
     public Mesh getMesh() {
         return mesh;
-    }
-    public String getTexturePath() {
-        return texture.getTexturePath();
-    }
-    public Texture getTexture() { return texture; }
-    public float getX() { return transform.getX(); }
-    public float getY() { return transform.getY(); }
-
-    // Transform methods
-    public void translate(float dx, float dy) {
-        transform.translate(dx, dy);
-    }
-    public Transform getTransform() {
-        return transform;
-    }
-
-    public void createInput() {
-        inputHandler = new InputHandler(GameObject.this);
-    }
-
-    public InputHandler input() {
-        return inputHandler;
     }
 }

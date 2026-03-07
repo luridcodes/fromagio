@@ -39,7 +39,7 @@ public class SceneRender {
         projectionMatrix = new Matrix4f().ortho(
                 0, screenWidth, screenHeight, 0, -1, 1
         );
-        Logger.info("Screen resize called: Projection Matrix Modified: [{}]", projectionMatrix);
+        Logger.info("[SceneRender] Screen Resize with width [{}] and height [{}]", screenWidth, screenHeight);
     }
 
     private void createUniforms() {
@@ -50,7 +50,7 @@ public class SceneRender {
         uniformMap.createUniform("projection");
         uniformMap.createUniform("model");
         uniformMap.createUniform("txtSampler");
-        Logger.info("Uniforms created: [{}]", uniformMap.getUniforms());
+        Logger.info("[SceneRender] Uniforms created: [{}]", uniformMap.getUniforms());
     }
 
     public void cleanup() {
@@ -68,11 +68,11 @@ public class SceneRender {
         // Render each game object
         for (GameObject obj : world.getObjectMap().values()) {
             // Get the transform matrix from the GameObject
-            Matrix4f modelMatrix = obj.getTransform().getMatrix();
+            Matrix4f modelMatrix = obj.transform().getMatrix();
             uniformMap.setUniform("model", modelMatrix);
 
             glActiveTexture(GL_TEXTURE0); // sets the active texture unit - we only need one unit for one texture per draw call for now
-            Texture texture = obj.getTexture();
+            Texture texture = obj.texture();
             texture.bind();
 
             // Draw the mesh

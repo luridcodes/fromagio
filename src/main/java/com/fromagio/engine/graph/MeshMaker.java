@@ -38,7 +38,7 @@ public class MeshMaker {
                 0,1,3,3,1,2
         };
 
-        Logger.info("New mesh created" + Arrays.toString(positions));
+        Logger.info("[Mesh] New mesh created" + Arrays.toString(positions));
         return new Mesh(positions, texCoords, indices);
     }
 }

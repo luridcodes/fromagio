@@ -41,7 +41,7 @@ public class Texture {
 
             stbi_image_free(buf);
 
-            Logger.info("New texture [{}] loaded", texturePath);
+            Logger.info("[Texture] New texture [{}] loaded", texturePath);
         }
     }
 

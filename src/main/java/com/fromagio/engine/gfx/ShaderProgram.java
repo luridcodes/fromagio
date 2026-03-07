@@ -6,6 +6,7 @@ import java.util.*;
 import static org.lwjgl.opengl.GL30.*;
 
 import com.fromagio.engine.Utils;
+import org.tinylog.Logger;
 
 public class ShaderProgram {
     private final int programID;
@@ -23,6 +24,7 @@ public class ShaderProgram {
         if(programID == 0) {
             throw new RuntimeException("Failed to create shader program");
         }
+        Logger.info("[ShaderProgram] OpenGL program created: [{}]", programID);
 
         List<Integer> shaderIDList = new ArrayList<>();
         for(ShaderModuleData s : shaderModuleDataList) {
@@ -48,15 +50,17 @@ public class ShaderProgram {
         if(shaderID == 0) {
             throw new RuntimeException("Failed to create shader " + shaderCode);
         }
-            glShaderSource(shaderID, shaderCode);
-            glCompileShader(shaderID);
 
-            if(glGetShaderi(shaderID, GL_COMPILE_STATUS) == 0) {
-                throw new RuntimeException("Failed to compile shader " + shaderCode);
-            }
+        glShaderSource(shaderID, shaderCode);
+        glCompileShader(shaderID);
 
-            glAttachShader(programID, shaderID);
-            return shaderID;
+        if (glGetShaderi(shaderID, GL_COMPILE_STATUS) == 0) {
+            throw new RuntimeException("Failed to compile shader " + shaderCode);
+        }
+
+        glAttachShader(programID, shaderID);
+        Logger.info("[ShaderProgram] New Shader Created: [{}]", shaderID);
+        return shaderID;
     }
 
     private void linkProgram(List<Integer> shaderIDList) {

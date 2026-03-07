@@ -4,6 +4,7 @@ import com.fromagio.engine.fromapi.SceneManager;
 import com.fromagio.engine.gfx.Render;
 import com.fromagio.engine.input.InputHandler;
 import com.fromagio.engine.fromapi.Scene;
+import com.fromagio.game.Main;
 import org.tinylog.Logger;
 
 import java.util.Arrays;
@@ -21,6 +22,22 @@ public class Engine {
     private SceneManager sceneManager;
     public static Engine instance; // singleton design pattern
 
+    /**
+     * Enforces one engine per game
+     */
+    public static void init(String windowTitle, int windowHeight, int windowWidth, IAppLogic appLogic) {
+        Window.WindowOptions opts = new Window.WindowOptions();
+        opts.height = windowHeight;
+        opts.width = windowWidth;
+        opts.compatibleProfile = false;
+
+        if (instance == null) {
+            instance = new Engine("1.1.3", opts, appLogic);
+        } else {
+            Logger.error("Engine instance already created!");
+        }
+    }
+
     public Engine(String windowTitle, Window.WindowOptions opts, IAppLogic appLogic) {
         window = new Window(windowTitle, opts, () -> {
             resize();
@@ -35,11 +52,7 @@ public class Engine {
         appLogic.init(window, render, sceneManager);
         running = true;
 
-        if(instance == null) {
-            instance =  this;
-        } else {
-            Logger.error("Engine instance already created!");
-        }
+        Logger.info("[Engine] Engine initialised for Window [{}]", windowTitle);
     }
 
     private void cleanup() {
@@ -95,9 +108,9 @@ public class Engine {
         cleanup();
     }
 
-    public void start() {
-        running = true;
-        run();
+    public static void start() {
+        instance.running = true;
+        instance.run();
     }
 
     public void stop() {
