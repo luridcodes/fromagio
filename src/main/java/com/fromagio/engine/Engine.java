@@ -56,8 +56,9 @@ public class Engine {
         appLogic.cleanup();
         render.cleanup();
         sceneManager.getCurrentScene().cleanup();
+        Logger.info("[Scene] Scene [{}] cleaned", sceneManager.getCurrentSceneName());
         window.cleanup();
-        Logger.info("all resources cleaned.");
+        Logger.info("[Engine] all resources cleaned.");
     }
 
     /**
@@ -103,6 +104,7 @@ public class Engine {
         }
 
         cleanup();
+        Logger.info("Window closed successfully");
     }
 
     public static void start() {

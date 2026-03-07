@@ -11,7 +11,7 @@ public class Input {
         this.windowHandle = windowHandle;
         keyboard = new Keyboard(windowHandle);
         mouse = new Mouse(windowHandle);
-        Logger.info("Input service initialised");
+        Logger.info("[Input] Input service initialised");
     }
 
     public Mouse getMouse() {

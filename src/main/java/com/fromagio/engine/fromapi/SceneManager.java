@@ -14,8 +14,12 @@ public class SceneManager {
     }
 
     public void setCurrentScene(String sceneName) {
+        if (currentScene != null) {
+            currentScene.cleanup();
+            Logger.info("[SceneManager] Scene [{}] cleaned", getCurrentSceneName());
+        }
         this.currentScene = sceneMap.get(sceneName);
-        Logger.info("Current Scene Set to: [{}]", sceneName);
+        Logger.info("[SceneManager] Current Scene Set to: [{}]", sceneName);
     }
 
     public String getCurrentSceneName() {
@@ -33,5 +37,6 @@ public class SceneManager {
 
     public void addScene(String sceneName, Scene scene) {
         sceneMap.put(sceneName, scene);
+        Logger.info("[SceneManager] Scene Added: [{}]", sceneName);
     }
 }

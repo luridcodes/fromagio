@@ -24,7 +24,12 @@ public class Main implements IAppLogic {
     @Override
     public void init(Window window, SceneManager sceneManager) {
         this.sceneManager = sceneManager;
+        gameScene = new GameScene();
+
         sceneManager.addScene("START_SCENE", new StartScreen(window).getScene());
+        sceneManager.addScene("END_SCENE", new EndScreen(window).getScene());
+        sceneManager.addScene("GAME_SCENE", gameScene.getScene());
+
         sceneManager.setCurrentScene("START_SCENE");
     }
 
@@ -36,8 +41,6 @@ public class Main implements IAppLogic {
     public void input(Window window, long diffTimeMillis) {
         if(sceneManager.getCurrentSceneName() == "START_SCENE"
                 && Engine.input().getKeyboard().isKeyPressed(GLFW_KEY_SPACE)) {
-            gameScene = new GameScene();
-            sceneManager.addScene("GAME_SCENE", gameScene.getScene());
             sceneManager.setCurrentScene("GAME_SCENE");
         }
     }
@@ -48,7 +51,6 @@ public class Main implements IAppLogic {
         if(sceneManager.getCurrentSceneName() == "GAME_SCENE") {
             gameScene.update(diffTimeMillis);
             if(gameScene.isGameOver()) {
-                sceneManager.addScene("END_SCENE", new EndScreen(window).getScene());
                 sceneManager.setCurrentScene("END_SCENE");
             }
         }

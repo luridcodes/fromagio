@@ -87,6 +87,7 @@ public class Window {
         if (callback != null) {
             callback.free();
         }
+        Logger.info("[Window] Window cleaned");
     }
 
     public int getHeight() {

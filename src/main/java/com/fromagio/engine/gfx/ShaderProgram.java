@@ -59,7 +59,7 @@ public class ShaderProgram {
         }
 
         glAttachShader(programID, shaderID);
-        Logger.info("[ShaderProgram] New Shader Created: [{}]", shaderID);
+        Logger.info("[ShaderProgram] New Shader Created.[ID: {}]", shaderID);
         return shaderID;
     }
 
@@ -84,11 +84,13 @@ public class ShaderProgram {
     public void unbind() {
         // sets the current OpenGL program to nothing
         glUseProgram(0);
+        // Logger.info("[ShaderProgram] OpenGL Program cleaned");
     }
 
     public void cleanup() {
         unbind();
         if (programID != 0) glDeleteProgram(programID);
+        Logger.info("[ShaderProgram] OpenGL Program cleaned");
     }
 
     public void validate() {
