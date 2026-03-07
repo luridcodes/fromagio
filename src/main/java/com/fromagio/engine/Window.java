@@ -5,8 +5,6 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryUtil;
 import org.tinylog.Logger;
 
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
 import java.util.concurrent.Callable;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
@@ -18,8 +16,11 @@ public class Window {
 
     private final long windowHandle;
     private int height;
-    private Callable<Void> resizeFunc;
+    private final Callable<Void> resizeFunc;
     private int width;
+
+    GLFWFramebufferSizeCallback framebufferSizeCallback;
+    GLFWErrorCallback errorCallback;
 
     public Window(String title, WindowOptions opts, Callable<Void> resizeFunc) {
         this.resizeFunc = resizeFunc;
@@ -46,6 +47,7 @@ public class Window {
         } else {
             glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
             GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+            if (vidMode == null) throw new RuntimeException("GLFW cannot get monitor info");
             width = vidMode.width();
             height = vidMode.height();
         }
@@ -54,11 +56,15 @@ public class Window {
         if (windowHandle == NULL) {
             throw new RuntimeException("Failed to create the GLFW window");
         }
+        framebufferSizeCallback =  glfwSetFramebufferSizeCallback(
+                windowHandle,
+                (_, w, h) ->
+                        resized(w, h)
+        );
 
-        glfwSetFramebufferSizeCallback(windowHandle, (window, w, h) -> resized(w, h));
-
-        glfwSetErrorCallback((int errorCode, long msgPtr) ->
-                Logger.error("Error code [{}], msg [{}]", errorCode, MemoryUtil.memUTF8(msgPtr))
+        errorCallback = glfwSetErrorCallback(
+                (int errorCode, long msgPtr) ->
+                        Logger.error("Error code [{}], msg [{}]", errorCode, MemoryUtil.memUTF8(msgPtr))
         );
 
         glfwMakeContextCurrent(windowHandle);
@@ -83,9 +89,10 @@ public class Window {
         glfwFreeCallbacks(windowHandle);
         glfwDestroyWindow(windowHandle);
         glfwTerminate();
-        GLFWErrorCallback callback = glfwSetErrorCallback(null);
-        if (callback != null) {
-            callback.free();
+        framebufferSizeCallback.free();
+        errorCallback = glfwSetErrorCallback(null);
+        if (errorCallback != null) {
+            errorCallback.free();
         }
         Logger.info("[Window] Window cleaned");
     }
@@ -112,8 +119,8 @@ public class Window {
         this.height = height;
         try {
             resizeFunc.call();
-        } catch (Exception excp) {
-            Logger.error("Error calling resize callback", excp);
+        } catch (Exception e) {
+            Logger.error("Error calling resize callback", e);
         }
     }
 

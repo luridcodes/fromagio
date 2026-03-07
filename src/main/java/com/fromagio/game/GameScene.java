@@ -29,7 +29,7 @@ public class GameScene {
         return gameScene;
     }
 
-    public void update(long diffTimeMillis) {
+    public void update(long DiffTimeMillis) {
         double[] cursorPos = Engine.input().getMouse().getCursorPos();
         lucas.getGameObject().transform().setPosition(
                 (long) cursorPos[0],
@@ -43,11 +43,10 @@ public class GameScene {
 }
 
 class Player {
-    private GameObject playerObject;
-    private Texture cheeseTexture;
+    private final GameObject playerObject;
 
     Player() {
-        cheeseTexture = new Texture("src/resources/textures/cheesepng.png");
+        Texture cheeseTexture = new Texture("src/resources/textures/cheesepng.png");
         playerObject = new GameObject(50, 50, 100, 100, cheeseTexture);
     }
 
@@ -58,11 +57,10 @@ class Player {
 }
 
 class EvilCheeseman {
-    private GameObject evilObject;
-    private Texture evilTexture;
+    private final GameObject evilObject;
 
     EvilCheeseman() {
-        evilTexture = new Texture("src/resources/textures/evil_cheeseman.png");
+        Texture evilTexture = new Texture("src/resources/textures/evil_cheeseman.png");
         evilObject = new GameObject(50, 50, 100, 100, evilTexture);
     }
 

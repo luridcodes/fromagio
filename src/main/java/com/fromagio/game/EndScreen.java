@@ -6,15 +6,13 @@ import com.fromagio.engine.fromapi.Scene;
 import com.fromagio.engine.fromapi.Texture;
 
 public class EndScreen {
-    private GameObject startObject;
-    private Texture startTexture;
-    private Scene startScene;
+    private final Scene startScene;
 
     public EndScreen(Window window) {
-        startTexture = new Texture("src/resources/textures/end_screen.png");
-        startObject = new GameObject(
-                (float) window.getWidth() /2,
-                (float) window.getHeight()/2,
+        Texture startTexture = new Texture("src/resources/textures/end_screen.png");
+        GameObject startObject = new GameObject(
+                (float) window.getWidth() / 2,
+                (float) window.getHeight() / 2,
                 (float) window.getWidth(),
                 (float) window.getHeight(),
                 startTexture);
