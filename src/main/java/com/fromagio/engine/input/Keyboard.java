@@ -1,5 +1,6 @@
 package com.fromagio.engine.input;
 
+import org.lwjgl.glfw.GLFWKeyCallback;
 import org.tinylog.Logger;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -8,11 +9,14 @@ import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 
 public class Keyboard {
     long windowHandle;
+    GLFWKeyCallback keyCallback;
+
 
     public Keyboard(long windowHandle) {
         this.windowHandle = windowHandle;
 
-        glfwSetKeyCallback(windowHandle, (window, key, scancode, action, mods) -> {
+        // this callback should be automatically cleaned in the window class
+        keyCallback = glfwSetKeyCallback(windowHandle, (window, key, scancode, action, mods) -> {
             keyCallBack(key, action);
         });
         Logger.info("[input.Keyboard] Keyboard Service initialised successfully");

@@ -14,7 +14,7 @@ import static org.lwjgl.opengl.GL30.*;
 
 /**
  * Mesh objects store vertex information about a mesh, which is generally information about
- * a quad (rectangle). Meshes can contain position, colour and indices arrays
+ * a quad (rectangle). Meshes can contain position, texture and indices arrays
  *
  * <p> Arrays in a mesh are written to GPU memory to enable rendering using {@link SceneRender}.
  * Each array is written to a {@link java.nio.Buffer} object, then bound and written to an

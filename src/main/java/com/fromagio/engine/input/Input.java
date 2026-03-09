@@ -2,6 +2,13 @@ package com.fromagio.engine.input;
 
 import org.tinylog.Logger;
 
+/**
+ * Contains static methods which can be accessed through the
+ * {@link com.fromagio.engine.Engine} for the game layer to access keyboard
+ * and mouse information through the input service
+ *
+ * @see com.fromagio.engine.Engine
+ */
 public class Input {
     long windowHandle;
     Keyboard keyboard;

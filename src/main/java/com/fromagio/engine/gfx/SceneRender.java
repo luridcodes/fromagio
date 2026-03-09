@@ -14,8 +14,6 @@ import static org.lwjgl.opengl.GL30.*;
  * Loads a list of shader files and creates an instance of {@link ShaderProgram} to compile
  * the shaders for rendering
  *
- * <p> In the future, this class should handle rendering of different Scenes, such as the
- * main menu scene, game scene, etc. Consider implementing this as an interface instead </p>
  */
 public class SceneRender {
 

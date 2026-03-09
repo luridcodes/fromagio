@@ -6,7 +6,6 @@ import org.tinylog.Logger;
 /**
  * Minimal Transform class - just stores position and can create a matrix
  *
- * <p> In the future, this class should contain rotation! </p>
  */
 public class Transform {
     private float x, y;

@@ -89,7 +89,6 @@ public class Window {
         glfwFreeCallbacks(windowHandle);
         glfwDestroyWindow(windowHandle);
         glfwTerminate();
-        framebufferSizeCallback.free();
         errorCallback = glfwSetErrorCallback(null);
         if (errorCallback != null) {
             errorCallback.free();

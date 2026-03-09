@@ -10,7 +10,14 @@ import org.tinylog.Logger;
  * intended to be created above the engine and handled by the engine, and contain a mesh and transform
  * matrix.
  *
- * <p> In the future, this object will contain other attributes </p>
+ * <p> Contains getters for {@link Transform} and {@link Texture} classes (more
+ * components may be added in the future). Each of these classes acts as a
+ * component which controls a specific attribute of the object, with methods
+ * that can be accessed through these classes to modify these attributes</p>
+ *
+ * @see Transform
+ * @see Texture
+ * @see Mesh
  */
 public class GameObject {
     private Mesh mesh;

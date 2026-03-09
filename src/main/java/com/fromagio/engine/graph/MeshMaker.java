@@ -7,10 +7,13 @@ import java.util.Arrays;
 public class MeshMaker {
 
     /**
-     * Generates a new rectangular {@link Mesh} given a width and height
+     * Generates a new rectangular {@link Mesh} given a width and height in
+     * pixels. The mesh is generated around the centre of the screen.
      *
-     * <p> In the future, there should be a game coordinates system instead of usuing
-     * OpenGL's NDC </p>
+     * <p>At present, the texture coordinates correspond to the entire
+     * rectangle using the entire mesh. In the future, the MeshMaker should
+     * support spritesheets in which tecture coordinates are only a
+     * portion of the entire spritesheet </p>
      *
      * @param width width of the mesh
      * @param height height of the mesh
