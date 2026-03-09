@@ -38,7 +38,8 @@ public class GameScene {
     }
 
     public boolean isGameOver() {
-        return Collision.isCollision(david.getGameObject(), lucas.getGameObject());
+        return Collision.isCollision(
+                david.getGameObject(), lucas.getGameObject());
     }
 }
 
@@ -46,8 +47,10 @@ class Player {
     private final GameObject playerObject;
 
     Player() {
-        Texture cheeseTexture = new Texture("src/resources/textures/cheesepng.png");
-        playerObject = new GameObject(50, 50, 100, 100, cheeseTexture);
+        Texture cheeseTexture = new Texture(
+                "src/resources/textures/cheesepng.png");
+        playerObject = new GameObject(
+                50, 50, 100, 100, cheeseTexture);
     }
 
     public GameObject getGameObject() {

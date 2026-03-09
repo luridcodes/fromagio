@@ -16,14 +16,15 @@ public class Keyboard {
         this.windowHandle = windowHandle;
 
         // this callback should be automatically cleaned in the window class
-        keyCallback = glfwSetKeyCallback(windowHandle, (window, key, scancode, action, mods) -> {
-            keyCallBack(key, action);
-        });
+        keyCallback = glfwSetKeyCallback(windowHandle,
+                (window, key, scancode, action, mods) -> {
+                    keyCallBack(key, action);
+                });
         Logger.info("[input.Keyboard] Keyboard Service initialised successfully");
     }
 
     public boolean isKeyPressed(int keyCode) {
-            return glfwGetKey(windowHandle, keyCode) == GLFW_PRESS;
+        return glfwGetKey(windowHandle, keyCode) == GLFW_PRESS;
     }
 
 

@@ -6,9 +6,9 @@ import com.fromagio.engine.graph.Transform;
 import org.tinylog.Logger;
 
 /**
- * Each Game Object corresponds to an object in the game which is renderable. Game Objects are
- * intended to be created above the engine and handled by the engine, and contain a mesh and transform
- * matrix.
+ * Each Game Object corresponds to an object in the game which is renderable.
+ * Game Objects are intended to be created above the engine and handled by the
+ * engine, and contain a mesh and transform matrix.
  *
  * <p> Contains getters for {@link Transform} and {@link Texture} classes (more
  * components may be added in the future). Each of these classes acts as a
@@ -37,16 +37,19 @@ public class GameObject {
     // access to components
 
     /**
-     * Used to access the {@link Transform} instance bound to this GameObject. The Transform
-     * class is used to handle operations related to position, size and rotation
+     * Used to access the {@link Transform} instance bound to this GameObject.
+     * The Transform class is used to handle operations related to position,
+     * size and rotation
      *
-     * <p> Coordinates are given in pixels, with the top left corner being (0,0), and angles 
-     * are given in degrees. </p>
+     * <p> Coordinates are given in pixels, with the top left corner being (0,0)
+     * , and angles are given in degrees. </p>
      * 
-     * <p> A transform class is created upon initialising a GameObject. The transform class is
-     * responsible in generating the Model uniform matrix to calculate the position, size and
-     * rotation of the object when being rendered. (See {@link Transform#getMatrix()}) </p>
-     * @return The {@link Transform} instance linked to this object 
+     * <p> A transform class is created upon initialising a GameObject. The
+     * transform class is responsible in generating the Model uniform matrix to
+     * calculate the position, size and rotation of the object when being
+     * rendered. (See {@link Transform#getMatrix()}) </p>
+     *
+     * @return The {@link Transform} instance linked to this object
      */
     public Transform transform() { return transform;}
 

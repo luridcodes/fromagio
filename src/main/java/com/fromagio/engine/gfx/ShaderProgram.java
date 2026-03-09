@@ -16,7 +16,8 @@ public class ShaderProgram {
      *
      * <p> Iterates through the list to parse the shader code to compile
      * and link the code into the created shader program. </p>
-     * @param shaderModuleDataList List of {@link ShaderModuleData} (file path + type)
+     * @param shaderModuleDataList List of {@link ShaderModuleData} (file path +
+     *                             type)
      * @throws RuntimeException if program fails to be created
      */
     public ShaderProgram(List<ShaderModuleData> shaderModuleDataList) {

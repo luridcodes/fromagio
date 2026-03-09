@@ -8,10 +8,11 @@ import org.tinylog.Logger;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
- * Handles the main rendering pipeline by clearing the screen and calling {@link SceneRender}
- * to render the current screen, and resets the viewpoint
+ * Handles the main rendering pipeline by clearing the screen and calling
+ * {@link SceneRender} to render the current screen, and resets the viewpoint
  *
- * <p> This class should only be called in {@link com.fromagio.engine.Engine} and nowhere else </p>
+ * <p> This class should only be called in {@link com.fromagio.engine.Engine}
+ * and nowhere else </p>
  */
 public class Render {
 

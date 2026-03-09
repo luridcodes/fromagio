@@ -11,8 +11,8 @@ import java.util.*;
 import static org.lwjgl.opengl.GL30.*;
 
 /**
- * Loads a list of shader files and creates an instance of {@link ShaderProgram} to compile
- * the shaders for rendering
+ * Loads a list of shader files and creates an instance of {@link ShaderProgram}
+ * to compile the shaders for rendering
  *
  */
 public class SceneRender {

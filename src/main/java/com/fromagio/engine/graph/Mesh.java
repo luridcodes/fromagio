@@ -13,12 +13,14 @@ import java.util.List;
 import static org.lwjgl.opengl.GL30.*;
 
 /**
- * Mesh objects store vertex information about a mesh, which is generally information about
- * a quad (rectangle). Meshes can contain position, texture and indices arrays
+ * Mesh objects store vertex information about a mesh, which is generally
+ * information about a quad (rectangle). Meshes can contain position, texture
+ * and indices arrays
  *
- * <p> Arrays in a mesh are written to GPU memory to enable rendering using {@link SceneRender}.
- * Each array is written to a {@link java.nio.Buffer} object, then bound and written to an
- * OpenGL buffer using a VBO. A VAO is also initialised for each VBO.  </p>
+ * <p> Arrays in a mesh are written to GPU memory to enable rendering using
+ * {@link SceneRender}. Each array is written to a {@link java.nio.Buffer}
+ * object, then bound and written to an OpenGL buffer using a VBO. A VAO is also
+ * initialised for each VBO.</p>
  *
  * @author Lucas
  */
@@ -29,11 +31,15 @@ public class Mesh {
     private List<Integer> vboIdList;
 
     /**
-     * Creates a new Mesh containing vertex positions and other information to draw a quad
+     * Creates a new Mesh containing vertex positions and other information to
+     * draw a quad
      *
-     * @param positions array of floats containing positions of vertices to be added to the mesh
-     * @param indices array of integers specifying how to read the positions array to draw triangles
-     * @param texCoords array of floats for the texture coordinates corresponding to the position coordinates
+     * @param positions array of floats containing positions of vertices to be
+     *                  added to the mesh
+     * @param indices array of integers specifying how to read the positions
+     *                array to draw triangles
+     * @param texCoords array of floats for the texture coordinates
+     *                  corresponding to the position coordinates
      */
     public Mesh(float[] positions, float[] texCoords, int[] indices) {
         numVertices = indices.length;
