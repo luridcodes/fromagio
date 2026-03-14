@@ -20,10 +20,11 @@ import org.tinylog.Logger;
  * @see Mesh
  */
 public class GameObject {
-    private Mesh mesh;
-    private Transform transform;  // Add transform
-    private Texture texture;
-    private float getWidth, height;
+    private final Mesh mesh;
+    private final Transform transform;  // Add transform
+    private final Texture texture;
+    private final float getWidth;
+    private final float height;
 
     public GameObject(float x, float y, float width, float height, Texture texture) {
         this.mesh = MeshMaker.genRectangle(width, height);

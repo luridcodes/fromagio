@@ -3,8 +3,10 @@ package com.fromagio.game;
 import com.fromagio.engine.Engine;
 import com.fromagio.engine.fromapi.GameObject;
 import com.fromagio.engine.fromapi.Scene;
+import com.fromagio.engine.fromapi.SpriteSheet;
 import com.fromagio.engine.fromapi.Texture;
 import com.fromagio.engine.physics.*;
+import com.fromagio.game.spritesheets.MCBlocks;
 
 
 /*
@@ -16,6 +18,7 @@ public class GameScene {
     Player lucas;
     Scene gameScene;
     EvilCheeseman david;
+    static SpriteSheet sheet = new SpriteSheet("src/resources/textures/MCBlocksBlackOutline.png");
 
     public GameScene() {
         lucas = new Player();
@@ -63,7 +66,8 @@ class EvilCheeseman {
     private final GameObject evilObject;
 
     EvilCheeseman() {
-        Texture evilTexture = new Texture("src/resources/textures/evil_cheeseman.png");
+        int[] params = {64,0,32,32};
+        Texture evilTexture = GameScene.sheet.getTexture(MCBlocks.GRASS_DIRT);
         evilObject = new GameObject(50, 50, 100, 100, evilTexture);
     }
 

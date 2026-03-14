@@ -17,7 +17,7 @@ public class MeshMaker {
      *
      * @param width width of the mesh
      * @param height height of the mesh
-     * @return
+     * @return {@link Mesh}
      */
     public static Mesh genRectangle(float width, float height) {
         float halfW = width / 2;

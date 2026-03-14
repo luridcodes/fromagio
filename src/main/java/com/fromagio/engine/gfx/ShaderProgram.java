@@ -1,6 +1,5 @@
 package com.fromagio.engine.gfx;
 
-import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL30;
 import java.util.*;
 import static org.lwjgl.opengl.GL30.*;

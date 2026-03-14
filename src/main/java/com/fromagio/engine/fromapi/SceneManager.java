@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class SceneManager {
     private Scene currentScene;
-    private Map<String, Scene> sceneMap;
+    private final Map<String, Scene> sceneMap;
 
     public SceneManager() {
         sceneMap = new HashMap<>();

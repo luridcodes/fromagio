@@ -3,7 +3,6 @@ package com.fromagio.engine.graph;
 import com.fromagio.engine.gfx.SceneRender;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.*;
-import org.tinylog.Logger;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
